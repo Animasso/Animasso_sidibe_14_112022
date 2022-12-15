@@ -10,8 +10,8 @@ function Home(props) {
         <div className="logo">
           <img src={whealthLogo} alt="" className="image-logo" />
         </div>
+        <hr />
       </header>
-      <hr />
       <h1>HRnet</h1>
       <div
         className="link-redirection"

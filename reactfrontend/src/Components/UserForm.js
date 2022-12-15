@@ -10,7 +10,7 @@ import { addEmployee } from "../Features/employeeSlice";
 import { useDispatch } from "react-redux";
 import formatDate from "../Utils/FormatDate";
 import { useState } from "react";
-import { Modal } from "n-modal-react";
+import { Modal } from "mymodal-react";
 
 function UserForm(props) {
   const cityList = useFetchUrl(`/mockData/mockDataStates.json`);
@@ -41,14 +41,12 @@ function UserForm(props) {
   const departementDefault = departements[0];
 
   const [modal, setModal] = useState(false);
-  const toggleModal = () => {
-    setModal(!modal);
-  };
+  // const toggleModal = () => {
+  //   setModal(!modal);
+  // };
   return (
     <>
-      {modal ? (
-        <Modal toggleModal={toggleModal} textModal={"Utilisateur crée"} />
-      ) : null}
+      {modal ? <Modal textModal={"Utilisateur crée"} /> : null}
 
       <form onSubmit={handleSubmit(submitForm)}>
         <Controller
@@ -123,15 +121,16 @@ function UserForm(props) {
             rules={{ required: "address required" }}
             render={({ field: { onChange, value } }) => (
               <TextField
-                id="standard-basic"
+                fullWidth
                 label="Address"
+                id="fullWidth"
                 variant="standard"
                 value={value}
                 onChange={onChange}
               />
             )}
           />
-
+          <br />
           <Controller
             name="City"
             control={control}
@@ -139,8 +138,9 @@ function UserForm(props) {
             rules={{ required: "city required" }}
             render={({ field: { onChange, value } }) => (
               <TextField
-                id="standard-basic"
+                fullWidth
                 label="City"
+                id="fullWidth"
                 variant="standard"
                 value={value}
                 onChange={onChange}
@@ -153,6 +153,7 @@ function UserForm(props) {
             name="State"
             control={control}
             defaultValue=""
+            className="myClassName"
             rules={{ required: "State required" }}
             render={({ field: { onChange, value } }) => (
               <Dropdown
@@ -168,6 +169,7 @@ function UserForm(props) {
             name="ZipCode"
             control={control}
             defaultValue=""
+            className="myClassName"
             rules={{ required: "ZipCode required" }}
             render={({ field: { onChange, value } }) => (
               <TextField
@@ -196,7 +198,7 @@ function UserForm(props) {
             />
           )}
         />
-        <input type="submit" />
+        <input type="submit" className="sendForm" />
       </form>
       {}
     </>

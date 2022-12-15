@@ -1,3 +1,9 @@
+body {
+  background-color: #84a443;
+}
+header {
+  background-color: #ffffff;
+}
 h1 {
   text-align: center;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
@@ -29,7 +35,6 @@ hr {
   border-radius: 5px;
 }
 main {
-  background-color: #84a443;
   display: flex;
   justify-content: center;
   margin-top: 50px;
@@ -42,4 +47,42 @@ form {
   text-align: center;
   border: 8px groove #e2f5bd;
   border-radius: 17px;
+}
+.Dropdown-control {
+  cursor: pointer !important ;
+  background-color: #94cd52 !important ;
+  border: 7px solid #ccc !important ;
+}
+fieldset {
+  border: 3px solid #abab5a;
+}
+.Dropdown-menu {
+  cursor: pointer !important;
+  background-color: #94cd52 !important;
+  border: 7px solid #ccc !important;
+}
+.sendForm {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  align-self: center;
+  background: linear-gradient(to bottom, #8fc745 5%, #c8e38d 100%);
+  background-color: #8fc745;
+  border-radius: 8px;
+  border: 2px solid #18ab29;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Trebuchet MS;
+  font-size: 16px;
+  padding: 16px 31px;
+  text-decoration: none;
+  text-shadow: -6px -2px 8px #2f6627;
+}
+.sendForm:hover {
+  background: linear-gradient(to bottom, #c8e38d 5%, #8fc745 100%);
+  background-color: #c8e38d;
+}
+.sendForm:active {
+  position: relative;
+  top: 1px;
 }
