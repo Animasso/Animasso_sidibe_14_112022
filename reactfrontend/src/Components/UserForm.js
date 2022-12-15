@@ -41,9 +41,9 @@ function UserForm(props) {
   const departementDefault = departements[0];
 
   const [modal, setModal] = useState(false);
-  // const toggleModal = () => {
-  //   setModal(!modal);
-  // };
+  const toggleModal = () => {
+    setModal(!modal);
+  };
   return (
     <>
       {modal ? <Modal textModal={"Utilisateur crée"} /> : null}
