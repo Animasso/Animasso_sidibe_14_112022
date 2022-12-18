@@ -10,14 +10,14 @@ import { addEmployee } from "../Features/employeeSlice";
 import { useDispatch } from "react-redux";
 import formatDate from "../Utils/FormatDate";
 import { useState } from "react";
-import { Modal } from "mymodal-react";
+import Modal from "new-modal";
 
 function UserForm(props) {
   const cityList = useFetchUrl(`/mockData/mockDataStates.json`);
   const options = cityList?.states?.map((city) => {
     return city.name;
   });
-  const defaultOption = options?.[0];
+  // const defaultOption = options?.[0];
   const dispatch = useDispatch();
   const { control, handleSubmit } = useForm();
   const submitForm = (data) => {
@@ -38,7 +38,7 @@ function UserForm(props) {
     "Human Resources",
     "Legal",
   ];
-  const departementDefault = departements[0];
+  // const departementDefault = departements[0];
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => {
@@ -59,6 +59,7 @@ function UserForm(props) {
               id="standard-basic"
               label="FirstName"
               variant="standard"
+              aria-label={"firstname"}
               value={value}
               onChange={onChange}
             />
@@ -86,13 +87,12 @@ function UserForm(props) {
           control={control}
           name="DateofBirth"
           rules={{ required: true }}
-          type="date"
           render={({ field }) => (
             <DatePicker
               name="DateofBirth"
               className="input"
               placeholderText="Select date"
-              dateFormat="dd/MM/yyyy"
+              format="dd/MM/yyyy"
               onChange={(e) => field.onChange(e)}
               selected={field.value}
             />
@@ -101,10 +101,12 @@ function UserForm(props) {
         <label>Start Date</label>
         <Controller
           control={control}
+          rules={{ required: true }}
           name="StartDate"
           render={({ field }) => (
             <DatePicker
-              format="y-MM-dd"
+              name="StartDate"
+              format="dd/MM/yyyy"
               className="input"
               placeholderText="Select date"
               onChange={(e) => field.onChange(e)}
@@ -159,8 +161,8 @@ function UserForm(props) {
               <Dropdown
                 options={options}
                 onChange={onChange}
-                value={defaultOption}
-                placeholder="Select an option"
+                // value={defaultOption}
+                placeholder="Select a State"
               />
             )}
           />
@@ -193,8 +195,8 @@ function UserForm(props) {
             <Dropdown
               {...field}
               options={departements}
-              value={departementDefault}
-              placeholder="Select an option"
+              // value={departementDefault}
+              placeholder="Select a Departement"
             />
           )}
         />
