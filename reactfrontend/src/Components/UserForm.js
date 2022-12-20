@@ -1,6 +1,7 @@
-// import React, { useState } from "react";
+import React, { Fragment } from "react";
 import DatePicker from "react-datepicker";
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
+
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import Dropdown from "react-dropdown";
@@ -10,6 +11,8 @@ import { addEmployee } from "../Features/employeeSlice";
 import { useDispatch } from "react-redux";
 import formatDate from "../Utils/FormatDate";
 import { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import Modal from "new-modal";
 
 function UserForm(props) {
@@ -17,9 +20,23 @@ function UserForm(props) {
   const options = cityList?.states?.map((city) => {
     return city.name;
   });
-  // const defaultOption = options?.[0];
+  const validationSchema = Yup.object().shape({
+    FirstName: Yup.string().required("firstname is required"),
+    LastName: Yup.string()
+      .required("lastname is required")
+      .min(6, "Username must be at least 6 characters")
+      .max(20, "Username must not exceed 20 characters"),
+  });
   const dispatch = useDispatch();
-  const { control, handleSubmit } = useForm();
+  const {
+    formState: { errors },
+    register,
+    control,
+    handleSubmit,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
   const submitForm = (data) => {
     data = {
       ...data,
@@ -44,25 +61,34 @@ function UserForm(props) {
   const toggleModal = () => {
     setModal(!modal);
   };
+
   return (
     <>
-      {modal ? <Modal textModal={"Utilisateur crée"} /> : null}
+      {modal ? (
+        <Modal textModal={"Utilisateur crée"} toggleModal={toggleModal} />
+      ) : null}
 
       <form onSubmit={handleSubmit(submitForm)}>
         <Controller
           name="FirstName"
           control={control}
           defaultValue=""
-          rules={{ required: "first name required" }}
           render={({ field: { onChange, value } }) => (
-            <TextField
-              id="standard-basic"
-              label="FirstName"
-              variant="standard"
-              aria-label={"firstname"}
-              value={value}
-              onChange={onChange}
-            />
+            <>
+              <TextField
+                id="standard-basic"
+                label="FirstName"
+                variant="standard"
+                aria-label={"FirstName"}
+                value={value}
+                onChange={onChange}
+                {...register("FirstName", { required: "Firstname required" })}
+                error={Boolean(errors.FirstName)}
+              />
+              <Typography variant="inherit" color="#b71c1c">
+                {errors.FirstName?.message}
+              </Typography>
+            </>
           )}
         />
 
@@ -72,13 +98,20 @@ function UserForm(props) {
           defaultValue=""
           rules={{ required: "last name required" }}
           render={({ field: { onChange, value } }) => (
-            <TextField
-              id="standard-basic"
-              label="LastName"
-              variant="standard"
-              value={value}
-              onChange={onChange}
-            />
+            <>
+              <TextField
+                id="standard-basic"
+                label="LastName"
+                variant="standard"
+                value={value}
+                onChange={onChange}
+                {...register("LastName")}
+                error={errors.LastName ? true : false}
+              />
+              <Typography variant="inherit" color="#b71c1c">
+                {errors.LastName?.message}
+              </Typography>
+            </>
           )}
         />
 
@@ -95,6 +128,9 @@ function UserForm(props) {
               format="dd/MM/yyyy"
               onChange={(e) => field.onChange(e)}
               selected={field.value}
+
+              // {...register("DateofBirth")}
+              // error={errors.DateofBirth ? true : false}
             />
           )}
         />
@@ -129,6 +165,9 @@ function UserForm(props) {
                 variant="standard"
                 value={value}
                 onChange={onChange}
+                {...register("Address")}
+                error={errors.Address ? true : false}
+                helperText="ENTER AN Address"
               />
             )}
           />
@@ -146,6 +185,8 @@ function UserForm(props) {
                 variant="standard"
                 value={value}
                 onChange={onChange}
+                {...register("City")}
+                error={errors.City ? true : false}
               />
             )}
           />
@@ -181,6 +222,8 @@ function UserForm(props) {
                 variant="standard"
                 value={value}
                 onChange={onChange}
+                {...register("ZipCode")}
+                error={errors.ZipCode ? true : false}
               />
             )}
           />
