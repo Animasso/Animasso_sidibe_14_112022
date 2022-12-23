@@ -91,7 +91,7 @@ function UserForm(props) {
       ) : null}
 
       <form
-        className=" shadow hover:shadow-2xl bg-gray-100  w-full md:w-1/3 flex-col justify-center p-4 my-9 rounded text-center "
+        className=" shadow hover:shadow-2xl bg-gray-100  w-full md:w-1/3 flex-col justify-center p-4 my-9 border rounded-lg text-center "
         onSubmit={handleSubmit(submitForm)}
       >
         <Controller
@@ -301,7 +301,7 @@ function UserForm(props) {
         />
         <input
           type="submit"
-          className="sendForm mt-7 w-32 p-3 rounded-md border-lime-700 border-4 bg-orange-600"
+          className="sendForm mt-7 w-32 p-3 rounded-md border-white border-2 bg-slate-400 hover:bg-slate-500"
         />
       </form>
       {}
