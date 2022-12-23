@@ -4,7 +4,7 @@ import { TextField, Typography } from "@mui/material";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
-import Dropdown from "react-dropdown";
+// import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import useFetchUrl from "../hooks/useFetch";
 import { addEmployee } from "../Features/employeeSlice";
@@ -14,18 +14,39 @@ import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Modal from "new-modal";
-
+import Select from "react-select";
 function UserForm(props) {
   const cityList = useFetchUrl(`/mockData/mockDataStates.json`);
   const options = cityList?.states?.map((city) => {
-    return city.name;
+    return { value: city.name, label: city.name };
   });
+  console.log("options:", options);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const departements = [
+    { value: "Sales", label: "Sales" },
+    { value: "Marketing", label: "Marketing" },
+    { value: "Engineering", label: "Engineering" },
+    { value: "Resources", label: "Resources" },
+    { value: "Legal", label: "Legal" },
+  ];
+
   const validationSchema = Yup.object().shape({
-    FirstName: Yup.string().required("firstname is required"),
+    FirstName: Yup.string()
+      .required("firstname is required")
+      .min(2, "firstname must be at least 2 characters"),
     LastName: Yup.string()
       .required("lastname is required")
-      .min(6, "Username must be at least 6 characters")
-      .max(20, "Username must not exceed 20 characters"),
+      .min(2, "lastname must be at least 2 characters"),
+    Address: Yup.string().required("Address is required"),
+    City: Yup.string().required("City is required"),
+    ZipCode: Yup.string()
+      .required()
+      .matches(/^[0-9]+$/, "Must be only digits")
+      .min(5, "Must be exactly 5 digits")
+      .max(5, "Must be exactly 5 digits"),
+
+    DateofBirth: Yup.date().required("Date of birth is required"),
+    StartDate: Yup.date().required("StarDate is required"),
   });
   const dispatch = useDispatch();
   const {
@@ -42,19 +63,13 @@ function UserForm(props) {
       ...data,
       DateofBirth: formatDate(data.DateofBirth),
       StartDate: formatDate(data.StartDate),
-      Departement: data.Departement.value,
+      Departement: selectedOption.value,
       State: data.State.value,
     };
     dispatch(addEmployee(data));
     setModal(true);
   };
-  const departements = [
-    "Sales",
-    "Marketing",
-    "Engineering",
-    "Human Resources",
-    "Legal",
-  ];
+
   // const departementDefault = departements[0];
 
   const [modal, setModal] = useState(false);
@@ -65,10 +80,20 @@ function UserForm(props) {
   return (
     <>
       {modal ? (
-        <Modal textModal={"Utilisateur crée"} toggleModal={toggleModal} />
+        <Modal
+          textModal={"Employee Create"}
+          toggleModal={toggleModal}
+          aria={{
+            labelledby: "modal",
+            describedby: "modal window open employee create",
+          }}
+        />
       ) : null}
 
-      <form onSubmit={handleSubmit(submitForm)}>
+      <form
+        className=" shadow hover:shadow-2xl bg-gray-100  w-full md:w-1/3 flex-col justify-center p-4 my-9 rounded text-center "
+        onSubmit={handleSubmit(submitForm)}
+      >
         <Controller
           name="FirstName"
           control={control}
@@ -76,6 +101,7 @@ function UserForm(props) {
           render={({ field: { onChange, value } }) => (
             <>
               <TextField
+                fullWidth
                 id="standard-basic"
                 label="FirstName"
                 variant="standard"
@@ -100,6 +126,7 @@ function UserForm(props) {
           render={({ field: { onChange, value } }) => (
             <>
               <TextField
+                fullWidth
                 id="standard-basic"
                 label="LastName"
                 variant="standard"
@@ -121,17 +148,20 @@ function UserForm(props) {
           name="DateofBirth"
           rules={{ required: true }}
           render={({ field }) => (
-            <DatePicker
-              name="DateofBirth"
-              className="input"
-              placeholderText="Select date"
-              format="dd/MM/yyyy"
-              onChange={(e) => field.onChange(e)}
-              selected={field.value}
-
-              // {...register("DateofBirth")}
-              // error={errors.DateofBirth ? true : false}
-            />
+            <>
+              <DatePicker
+                name="DateofBirth"
+                className="input"
+                placeholderText="Select date"
+                format="dd/MM/yyyy"
+                onChange={(e) => field.onChange(e)}
+                selected={field.value}
+                error={errors.DateofBirth ? true : false}
+              />
+              <Typography variant="inherit" color="#b71c1c">
+                {errors.DateofBirth?.message}
+              </Typography>
+            </>
           )}
         />
         <label>Start Date</label>
@@ -140,17 +170,22 @@ function UserForm(props) {
           rules={{ required: true }}
           name="StartDate"
           render={({ field }) => (
-            <DatePicker
-              name="StartDate"
-              format="dd/MM/yyyy"
-              className="input"
-              placeholderText="Select date"
-              onChange={(e) => field.onChange(e)}
-              selected={field.value}
-            />
+            <>
+              <DatePicker
+                name="StartDate"
+                format="dd/MM/yyyy"
+                className="input"
+                placeholderText="Select date"
+                onChange={(e) => field.onChange(e)}
+                selected={field.value}
+              />
+              <Typography variant="inherit" color="#b71c1c">
+                {errors.StartDate?.message}
+              </Typography>
+            </>
           )}
         />
-        <fieldset>
+        <fieldset className="border border-solid border-gray-300 p-3 mt-7">
           <legend>Address</legend>
           <Controller
             name="Address"
@@ -158,17 +193,21 @@ function UserForm(props) {
             defaultValue=""
             rules={{ required: "address required" }}
             render={({ field: { onChange, value } }) => (
-              <TextField
-                fullWidth
-                label="Address"
-                id="fullWidth"
-                variant="standard"
-                value={value}
-                onChange={onChange}
-                {...register("Address")}
-                error={errors.Address ? true : false}
-                helperText="ENTER AN Address"
-              />
+              <>
+                <TextField
+                  fullWidth
+                  label="Address"
+                  id="fullWidth"
+                  variant="standard"
+                  value={value}
+                  onChange={onChange}
+                  {...register("Address")}
+                  error={errors.Address ? true : false}
+                />
+                <Typography variant="inherit" color="#b71c1c">
+                  {errors.Address?.message}
+                </Typography>
+              </>
             )}
           />
           <br />
@@ -178,16 +217,21 @@ function UserForm(props) {
             defaultValue=""
             rules={{ required: "city required" }}
             render={({ field: { onChange, value } }) => (
-              <TextField
-                fullWidth
-                label="City"
-                id="fullWidth"
-                variant="standard"
-                value={value}
-                onChange={onChange}
-                {...register("City")}
-                error={errors.City ? true : false}
-              />
+              <>
+                <TextField
+                  fullWidth
+                  label="City"
+                  id="fullWidth"
+                  variant="standard"
+                  value={value}
+                  onChange={onChange}
+                  {...register("City")}
+                  error={errors.City ? true : false}
+                />
+                <Typography variant="inherit" color="#b71c1c">
+                  {errors.City?.message}
+                </Typography>
+              </>
             )}
           />
 
@@ -199,7 +243,7 @@ function UserForm(props) {
             className="myClassName"
             rules={{ required: "State required" }}
             render={({ field: { onChange, value } }) => (
-              <Dropdown
+              <Select
                 options={options}
                 onChange={onChange}
                 // value={defaultOption}
@@ -215,16 +259,20 @@ function UserForm(props) {
             className="myClassName"
             rules={{ required: "ZipCode required" }}
             render={({ field: { onChange, value } }) => (
-              <TextField
-                id="standard-basic"
-                inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                label="ZipCode"
-                variant="standard"
-                value={value}
-                onChange={onChange}
-                {...register("ZipCode")}
-                error={errors.ZipCode ? true : false}
-              />
+              <>
+                <TextField
+                  id="standard-basic"
+                  label="ZipCode"
+                  variant="standard"
+                  value={value}
+                  onChange={onChange}
+                  {...register("ZipCode")}
+                  error={errors.ZipCode ? true : false}
+                />
+                <Typography variant="inherit" color="#b71c1c">
+                  {errors.ZipCode?.message}
+                </Typography>
+              </>
             )}
           />
         </fieldset>
@@ -234,16 +282,27 @@ function UserForm(props) {
           control={control}
           defaultValue=""
           rules={{ required: "departement required" }}
-          render={({ field }) => (
-            <Dropdown
-              {...field}
-              options={departements}
-              // value={departementDefault}
-              placeholder="Select a Departement"
-            />
+          render={({ field: { selectedOption } }) => (
+            <>
+              <Select
+                name="Departement"
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={departements}
+                placeholder="Select a Departement"
+                error={errors.Departement ? true : false}
+              />
+
+              <Typography variant="inherit" color="#b71c1c">
+                {errors.Departement?.message}
+              </Typography>
+            </>
           )}
         />
-        <input type="submit" className="sendForm" />
+        <input
+          type="submit"
+          className="sendForm mt-7 w-32 p-3 rounded-md border-lime-700 border-4 bg-orange-600"
+        />
       </form>
       {}
     </>

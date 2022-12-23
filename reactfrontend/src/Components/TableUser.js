@@ -40,16 +40,21 @@ function TableUser(props) {
   } = tableInstance;
   const { globalFilter } = state;
   return (
-    <>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-      <table id="customers" {...getTableProps()}>
+    <div className="flex-col  bg-cyan-400 flex justify-center items-center w-auto">
+      <div className=" mt-9 place-self-start ml-5">
+        <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+      </div>
+      <table id="customers" className=" table-auto mt-12 " {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroups) => (
-            <tr {...headerGroups.getFooterGroupProps()}>
+            <tr className="" {...headerGroups.getFooterGroupProps()}>
               {headerGroups.headers.map((column) => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <th
+                  className="border border-white p-2 bg-orange-700 "
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                >
                   {column.render("Header")}
-                  <span>
+                  <div className="ml-2 mt-1">
                     {column.isSorted ? (
                       column.isSortedDesc ? (
                         <FaChevronDown />
@@ -59,20 +64,28 @@ function TableUser(props) {
                     ) : (
                       <FaChevronDown />
                     )}
-                  </span>
+                  </div>
                 </th>
               ))}
             </tr>
           ))}
         </thead>
-        <tbody {...getTableBodyProps()}>
+        <tbody
+          className="border border-black text-lime-600 bg-slate-50"
+          {...getTableBodyProps()}
+        >
           {page.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td
+                      className=" border border-black py-2 px-2"
+                      {...cell.getCellProps()}
+                    >
+                      {cell.render("Cell")}
+                    </td>
                   );
                 })}
               </tr>
@@ -80,23 +93,23 @@ function TableUser(props) {
           })}
         </tbody>
       </table>
-      <div>
+      <div className=" inline-flex mt-4 ">
         <button
-          className="bnt-table"
+          className="bnt-table bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
           onClick={() => previousPage()}
           disabled={!canPreviousPage}
         >
           Previous
         </button>
         <button
-          className="bnt-table"
+          className="bnt-table bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
           onClick={() => nextPage()}
           disabled={!canNextPage}
         >
           Next
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

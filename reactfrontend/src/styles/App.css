@@ -1,3 +1,6 @@
-@import "./home.css";
-@import "./table.css";
+/* @import "./home.css";
+@import "./table.css"; */
 @import "./modal.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

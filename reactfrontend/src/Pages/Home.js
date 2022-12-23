@@ -7,21 +7,21 @@ function Home(props) {
   return (
     <>
       <header>
-        <div className="logo">
+        <div className="logo flex justify-center w-62 h-60">
           <img src={whealthLogo} alt="" className="image-logo" />
         </div>
         <hr />
       </header>
-      <h1>HRnet</h1>
+      <h1 className="text-center font-extrabold text-3xl">HRnet</h1>
       <div
-        className="link-redirection"
+        className="link-redirection text-center cursor-pointer mt-7 underline"
         onClick={() => {
           navigate("/currentEmployee");
         }}
       >
         View Current Employees
       </div>
-      <main>
+      <main className="flex justify-center">
         <UserForm />
       </main>
     </>

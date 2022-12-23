@@ -4,17 +4,17 @@ import { useNavigate } from "react-router-dom";
 function EmployeeList(props) {
   let navigate = useNavigate();
   return (
-    <div>
+    <>
       <TableUser />
       <div
-        className="link-redirection"
+        className="link-redirection text-center cursor-pointer"
         onClick={() => {
           navigate("/");
         }}
       >
         Home
       </div>
-    </div>
+    </>
   );
 }
 
