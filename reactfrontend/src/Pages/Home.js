@@ -8,7 +8,7 @@ function Home(props) {
     <>
       <header>
         <div className="logo flex justify-center w-62 h-48">
-          <img src={whealthLogo} alt="" className="image-logo" />
+          <img src={whealthLogo} alt="" className="image-logo w-auto" />
         </div>
       </header>
       <main className="bg-gradient-to-bl from-lime-100 via-lime-600 to-lime-900 border-t-4">

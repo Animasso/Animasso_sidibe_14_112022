@@ -40,60 +40,66 @@ function TableUser(props) {
   } = tableInstance;
   const { globalFilter } = state;
   return (
-    <div className="flex-col  bg-cyan-400 flex justify-center items-center w-auto">
+    <div className="">
       <div className=" mt-9 place-self-start ml-5">
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
       </div>
-      <table id="customers" className=" table-auto mt-12 " {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroups) => (
-            <tr className="" {...headerGroups.getFooterGroupProps()}>
-              {headerGroups.headers.map((column) => (
-                <th
-                  className="border border-white p-2 bg-orange-700 "
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                >
-                  {column.render("Header")}
-                  <div className="ml-2 mt-1">
-                    {column.isSorted ? (
-                      column.isSortedDesc ? (
-                        <FaChevronDown />
-                      ) : (
-                        <FaChevronUp />
-                      )
-                    ) : (
-                      <FaChevronDown />
-                    )}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody
-          className="border border-black text-lime-600 bg-slate-50"
-          {...getTableBodyProps()}
+      <div className=" overflow-x-auto ml-16">
+        <table
+          id="customers"
+          className=" table-auto mt-12 overflow-x-auto "
+          {...getTableProps()}
         >
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td
-                      className=" border border-black py-2 px-2"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
-                    </td>
-                  );
-                })}
+          <thead>
+            {headerGroups.map((headerGroups) => (
+              <tr className="" {...headerGroups.getFooterGroupProps()}>
+                {headerGroups.headers.map((column) => (
+                  <th
+                    className="border border-black p-2 bg-white "
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                  >
+                    {column.render("Header")}
+                    <div className="ml-2 mt-1">
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <FaChevronDown />
+                        ) : (
+                          <FaChevronUp />
+                        )
+                      ) : (
+                        <FaChevronDown />
+                      )}
+                    </div>
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <div className=" inline-flex mt-4 ">
+            ))}
+          </thead>
+          <tbody
+            className="border border-black text-lime-600 bg-slate-50"
+            {...getTableBodyProps()}
+          >
+            {page.map((row) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => {
+                    return (
+                      <td
+                        className=" border border-black py-2 px-2"
+                        {...cell.getCellProps()}
+                      >
+                        {cell.render("Cell")}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className=" inline-flex mt-4 ml-16 ">
         <button
           className="bnt-table bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
           onClick={() => previousPage()}

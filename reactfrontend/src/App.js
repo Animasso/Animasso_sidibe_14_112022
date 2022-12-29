@@ -7,11 +7,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route
-          path="/currentEmployee"
-          element={<EmployeeList />}
-          // userSignup={userSignup}
-        ></Route>
+        <Route path="/currentEmployee" element={<EmployeeList />}></Route>
       </Routes>
     </>
   );

@@ -47,6 +47,10 @@ function UserForm(props) {
 
     DateofBirth: Yup.date().required("Date of birth is required"),
     StartDate: Yup.date().required("StarDate is required"),
+    // Departement: Yup.object().shape({
+    //   label: Yup.string().required("label is required"),
+    //   value: Yup.string().required("value is required"),
+    // }),
   });
   const dispatch = useDispatch();
   const {
@@ -66,8 +70,10 @@ function UserForm(props) {
       Departement: selectedOption.value,
       State: data.State.value,
     };
+    console.log("data:", data);
     dispatch(addEmployee(data));
     setModal(true);
+    console.log(selectedOption);
   };
 
   // const departementDefault = departements[0];
@@ -94,7 +100,7 @@ function UserForm(props) {
         className=" shadow hover:shadow-2xl bg-gray-100  w-full md:w-1/3 flex-col justify-center p-4 my-9 border rounded-lg text-center "
         onSubmit={handleSubmit(submitForm)}
       >
-        <Controller
+        {/* <Controller
           name="FirstName"
           control={control}
           defaultValue=""
@@ -116,9 +122,32 @@ function UserForm(props) {
               </Typography>
             </>
           )}
-        />
-
-        <Controller
+        /> */}
+        <div className="inputForm flex flex-col">
+          <label htmlFor="FirstName">Firstname</label>
+          <input
+            className=" p-5 my-3 h-4 hover:shadow-2xl focus:ring-transparent focus:border-lime-700 border-white focus:outline-none focus-border-lime-700 invalid:border-pink-500"
+            type="text"
+            placeholder="Firstname"
+            {...register("FirstName")}
+          />
+          <div className="errorStyle text-red-600">
+            {errors.FirstName && "First name must be at least 2 characters"}
+          </div>
+        </div>
+        <div className="inputForm inputForm flex flex-col">
+          <label htmlFor="LastName">Lastname</label>
+          <input
+            type="text"
+            className="p-5 my-3 h-4 border-none hover:shadow-2xl"
+            placeholder="LastName"
+            {...register("LastName")}
+          />
+          <div className="errorStyle text-red-600">
+            {errors.LastName && " LastName must be at least 2 characters"}
+          </div>
+        </div>
+        {/* <Controller
           name="LastName"
           control={control}
           defaultValue=""
@@ -140,7 +169,7 @@ function UserForm(props) {
               </Typography>
             </>
           )}
-        />
+        /> */}
 
         <label>Date of Birth</label>
         <Controller
@@ -187,7 +216,7 @@ function UserForm(props) {
         />
         <fieldset className="border border-solid border-gray-300 p-3 mt-7">
           <legend>Address</legend>
-          <Controller
+          {/* <Controller
             name="Address"
             control={control}
             defaultValue=""
@@ -209,7 +238,14 @@ function UserForm(props) {
                 </Typography>
               </>
             )}
-          />
+          /> */}
+          <div className="inputForm">
+            <label htmlFor="Address">Address</label>
+            <input type="text" placeholder="Address" {...register("Address")} />
+            <div className="errorStyle text-red-600">
+              {errors.Address && " Address is required"}
+            </div>
+          </div>
           <br />
           <Controller
             name="City"
@@ -238,9 +274,10 @@ function UserForm(props) {
           <legend>States</legend>
           <Controller
             name="State"
+            htmlFor="State"
             control={control}
             defaultValue=""
-            className="myClassName"
+            className="State"
             rules={{ required: "State required" }}
             render={({ field: { onChange, value } }) => (
               <Select
@@ -279,6 +316,7 @@ function UserForm(props) {
         <legend>Departement</legend>
         <Controller
           name="Departement"
+          htmlFor="Departement"
           control={control}
           defaultValue=""
           rules={{ required: "departement required" }}
@@ -294,7 +332,7 @@ function UserForm(props) {
               />
 
               <Typography variant="inherit" color="#b71c1c">
-                {errors.Departement?.message}
+                {errors.Departement != null && "departement required"}
               </Typography>
             </>
           )}
