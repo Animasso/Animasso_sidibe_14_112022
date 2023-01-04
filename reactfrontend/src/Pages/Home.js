@@ -8,13 +8,13 @@ function Home(props) {
     <>
       <header>
         <div className="logo flex justify-center w-62 h-48">
-          <img src={whealthLogo} alt="" className="image-logo w-auto" />
+          <img src={whealthLogo} alt="" className="image-logo w-auto h-auto" />
         </div>
       </header>
       <main className="bg-gradient-to-bl from-lime-100 via-lime-600 to-lime-900 border-t-4">
         <h1 className="text-center font-extrabold text-3xl mt-3">HRnet</h1>
         <div
-          className="link-redirection text-center cursor-pointer mt-7 underline"
+          className="link-redirection text-center cursor-pointer mt-7 font-mono font-bold text-2xl text-cyan-50 hover:text-slate-800 underline"
           onClick={() => {
             navigate("/currentEmployee");
           }}

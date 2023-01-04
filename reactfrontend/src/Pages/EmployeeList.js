@@ -1,19 +1,15 @@
 import React from "react";
 import TableUser from "../Components/TableUser";
-import { useNavigate } from "react-router-dom";
+import whealthLogo from "../assets/wealthLogo.png";
 function EmployeeList(props) {
-  let navigate = useNavigate();
   return (
-    <div className=" flex flex-col bg-gradient-to-bl from-lime-100 via-lime-600 to-lime-900">
+    <div className=" h-screen ">
+      <header>
+        <div className="logo flex justify-center w-62 h-48">
+          <img src={whealthLogo} alt="" className="image-logo w-auto h-auto" />
+        </div>
+      </header>
       <TableUser />
-      <div
-        className="link-redirection text-center cursor-pointer"
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        Home
-      </div>
     </div>
   );
 }

@@ -10,7 +10,9 @@ import { useSelector } from "react-redux";
 import { FaChevronDown } from "react-icons/fa";
 import { FaChevronUp } from "react-icons/fa";
 import GlobalFilter from "./GlobalFilter";
+import { useNavigate } from "react-router-dom";
 function TableUser(props) {
+  let navigate = useNavigate();
   const { employees } = useSelector((state) => state.employeeList);
   console.log("employees:", employees);
   const columns = useMemo(() => COLUMNS, []);
@@ -40,7 +42,7 @@ function TableUser(props) {
   } = tableInstance;
   const { globalFilter } = state;
   return (
-    <div className="">
+    <div className="h-screen flex flex-col bg-gradient-to-bl from-lime-100 via-lime-600 to-lime-900">
       <div className=" mt-9 place-self-start ml-5">
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
       </div>
@@ -114,6 +116,14 @@ function TableUser(props) {
         >
           Next
         </button>
+      </div>
+      <div
+        className="link-redirection text-center cursor-pointer font-mono font-bold text-2xl text-cyan-50 hover:text-slate-800 underline"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        Home
       </div>
     </div>
   );
