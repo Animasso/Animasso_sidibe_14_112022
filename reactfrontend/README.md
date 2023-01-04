@@ -1,6 +1,29 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project #14 - HRnet
+
+
+## Getting Started
+
+### Prerequisites
+
+
+
+### Instructions
+
+1. Fork this repo
+1. Clone the repo onto your computer
+1. Open a terminal window in the cloned project
+1. Run the following commands:
+
+```bash
+# Install dependencies
+cd reactfrontend
+npm install
+
+```
+
+
 
 ## Available Scripts
 
