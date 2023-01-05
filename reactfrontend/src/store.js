@@ -1,5 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  combineReducers,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import employeeReducer from "./Features/employeeSlice";
+import { persistReducer, REGISTER } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 // import {
 //   persistStore,
 //   persistReducer,
@@ -10,17 +16,23 @@ import employeeReducer from "./Features/employeeSlice";
 //   PURGE,
 //   REGISTER,
 // } from "redux-persist";
+const persistConfig = {
+  key: "root",
+  storage,
+};
+const reducer = combineReducers({
+  employeeList: employeeReducer,
+});
+const persistedReducer = persistReducer(persistConfig, reducer);
 
 const store = configureStore({
-  reducer: {
-    employeeList: employeeReducer,
-  },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: {
-  //       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-  //     },
-  //   }),
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoreActions: [REGISTER],
+    },
+  }),
+  devTools: true,
 });
 
 export default store;
