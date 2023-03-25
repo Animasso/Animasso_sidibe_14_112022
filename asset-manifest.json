@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/Animasso_sidibe_14_112022/static/css/main.47717b93.css",
+    "main.js": "/Animasso_sidibe_14_112022/static/js/main.655c3b98.js",
+    "static/js/787.fd7f38a1.chunk.js": "/Animasso_sidibe_14_112022/static/js/787.fd7f38a1.chunk.js",
+    "static/media/wealthLogo.png": "/Animasso_sidibe_14_112022/static/media/wealthLogo.06daa59c95d7d6031ed7.png",
+    "index.html": "/Animasso_sidibe_14_112022/index.html",
+    "main.47717b93.css.map": "/Animasso_sidibe_14_112022/static/css/main.47717b93.css.map",
+    "main.655c3b98.js.map": "/Animasso_sidibe_14_112022/static/js/main.655c3b98.js.map",
+    "787.fd7f38a1.chunk.js.map": "/Animasso_sidibe_14_112022/static/js/787.fd7f38a1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.47717b93.css",
+    "static/js/main.655c3b98.js"
+  ]
+}
